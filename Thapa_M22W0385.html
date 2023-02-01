@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Games Form</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<h1>Games Form</h1>
+
+<script>
+
+function updateClock() {
+        let Time = new Date();
+        let Hours = Time.getHours();
+        let Minutes = Time.getMinutes();
+        let Seconds = Time.getSeconds();
+
+        // Pad the minutes and seconds with leading zeros
+        Minutes = (Minutes < 10 ? "0" : "") + Minutes;
+        Seconds = (Seconds < 10 ? "0" : "") + Seconds;
+
+        // Choose either "AM" or "PM" as appropriate
+        let timeOfDay = (Hours < 12) ? "AM" : "PM";
+
+        // Convert the hours component to 12-hour format if needed
+        Hours = (Hours > 12) ? Hours - 12 : Hours;
+
+        // Convert an hours component of "0" to "12"
+        Hours = (Hours == 0) ? 12 : Hours;
+
+        // Compose the string for display
+        let TimeString = Hours + ":" + Minutes + ":" + Seconds + " " + timeOfDay;
+
+        // Update the time display
+        document.getElementById("clock").innerHTML = TimeString;
+      }
+      setInterval(updateClock, 1000);
+
+
+
+
+    function handleSubmit() {
+  event.preventDefault(); // prevent the form from being submitted
+
+  // get the form data as an object
+  const formData = {
+    name: document.getElementById('name').value,
+    genre: document.getElementById('genre').value,
+    platform: document.getElementById('platform').value,
+    releasedate: document.getElementById('release date').value,
+    rating: document.getElementById('rating').value
+  }
+
+  // validate the form data
+  if (!formData.name || !formData.genre || !formData.platform || !formData.releasedate || !formData.rating || formData.rating < 1 || formData.rating > 10) {
+    alert('All fields are required and rating must be a number between 1 and 10!');
+    return;
+  }
+
+  // display the form data as a JSON string
+  const outputDiv = document.getElementById('output');
+  const p = document.createElement('p');
+  p.innerText = JSON.stringify(formData);
+  outputDiv.appendChild(p);
+
+  // clear the form
+  document.getElementById('form').reset();
+}
+
+</script>
+<div id="clock"></div>
+
+<form id="form" onsubmit="handleSubmit()">
+    <label for="name">Games Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="genre">Genre:</label><br>
+    <select id="genre" name="genre">
+      <option value="action">Action</option>
+      <option value="adventure">Adventure</option>
+      <option value="casual">Casual</option>
+      <option value="role-playing">Role-playing</option>
+      <option value="simulation">Simulation</option>
+      <option value="strategy">Strategy</option>
+    </select><br>
+    <label for="platform">Platform:</label><br>
+    <select id="platform" name="platform">
+      <option value="pc">PC</option>
+      <option value="playstation">Playstation</option>
+      <option value="xbox">Xbox</option>
+      <option value="nintendo">Nintendo</option>
+    </select><br>
+    <label for="release date">Release Date:</label><br>
+    <input type="date" id="release date" name="release date"><br>
+    <label for="rating">Rating:</label><br>
+  <input type="number" id="rating" name="rating" min="1" max="10" required><br><br>
+    <button type="submit">Submit</button>
+    <button type="reset" onclick="if(confirm('Are you sure you want to reset the page?')) location.reload();" >reset</button>
+    
+
+  </form>
+  
+  <div id="output"></div>
+ 
+
+</body>
+</html>
